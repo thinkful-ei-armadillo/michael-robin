@@ -1,4 +1,6 @@
-const api = function () {
+/* global, store, index */
+
+const api = (function () {
     const BASE_URL = 'https://thinkful-list-api.herokuapp.com/michaelRobin';
     const getItems = function () {
         return fetch(`${BASE_URL}/bookmarks`);
@@ -30,21 +32,16 @@ const api = function () {
     }
 
     const createItem = function (name) {
-        const newItem = {
-            name: name,
-            url: url,
-            desc: desc,
-            rating: rating
-        };
+        
         const options = {
             method: 'POST',
             headers: new Headers({
                 'Content-Type': 'application/json'
             }),
-            body: JSON.stringify(newItem),
+            body: name,
         }
-        return listApiFetch(`${BASE_URL}/items`, options);
-    };
+        return listApiFetch(`${BASE_URL}/bookmarks`, options);
+    }
 
 
     const updateItem = function (id, updateData) {
@@ -68,7 +65,8 @@ const api = function () {
     return {
         getItems,
         deleteItem,
-        updateData
+        // updateData,
+        createItem
     }
 
     // getItems,
@@ -78,4 +76,4 @@ const api = function () {
     // updateItem,
 
     // deleteItem
-}
+}());

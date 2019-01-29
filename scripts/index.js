@@ -1,4 +1,4 @@
-// run main stuff
+/* global bookmark-list, store,api,$ */
 $(document).ready(function () {
     bookmarkList.bindEventListeners();
   });
