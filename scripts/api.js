@@ -32,7 +32,7 @@ const api = (function () {
     }
 
     const createItem = function (name) {
-        
+        console.log(name);
         const options = {
             method: 'POST',
             headers: new Headers({

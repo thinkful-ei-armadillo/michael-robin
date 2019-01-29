@@ -2,13 +2,12 @@
 $(document).ready(function () {
   api.getItems()
    .then ( res  => res.json())
-   .then (resJ => 
-    resJ.forEach(item => {
-      store.addItem(item);
-      bookmarkList.bindEventListeners();
-      bookmarkList.render();
-    }))
-    
+   .then (resJ => {
+    resJ.forEach(item => 
+      store.addItem(item));
+    bookmarkList.bindEventListeners();
+    bookmarkList.render();}
+    )
 });
   
   
