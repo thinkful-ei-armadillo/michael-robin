@@ -1,4 +1,4 @@
-const api = function (){
+const api = function () {
     const BASE_URL = 'https://thinkful-list-api.herokuapp.com/michaelRobin';
     const getItems = function () {
         return fetch(`${BASE_URL}/bookmarks`);
@@ -65,7 +65,12 @@ const api = function (){
         return listApiFetch(`${BASE_URL}/bookmarks/${id}`, options);
     };
 
-    
+    return {
+        getItems,
+        deleteItem,
+        updateData
+    }
+
     // getItems,
 
     // createItem,
