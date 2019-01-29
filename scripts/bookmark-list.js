@@ -25,7 +25,7 @@ const bookmarkList = (function () {
     }
   });
 
-  const generateNewItemSubmitFormExpanded =function(stuff){
+  const generateNewItemSubmitFormExpanded = function (){
     return `
        <label>Title</label>
           <input type="text" name="title" placeholder="Title"><br>
@@ -41,9 +41,10 @@ const bookmarkList = (function () {
               <option>4</option>
               <option>5</option>
           </select><br>
-          <button type="submit'>Add Bookmark</button>`
+          <button type="submit">Add Bookmark</button>`;
   }
-  function generateShoppingItemsString(shoppingList) {
+
+  function generateBookmarkString(shoppingList) {
     const items = shoppingList.map((item) => generateItemElement(item));
     return items.join('');
   }
@@ -51,47 +52,35 @@ const bookmarkList = (function () {
   const generateItemElement =function (item){
     return `
             <li>
-                  <h3>Bookmark 1</h3>
-                  
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
+                  <h3>${item.title}</h3>
+                  <p>description: ${item.desc}</p>
+                  <a href="${item.url}">Visit Site</a>
+                  <p>${item.rating}</p>
               </li>`
   }
-  const generateMainHtml= function(){
-    return `<!-- <button>Add Bookmark</button>
-    <br>
-    <label>Minimum Rating</label>
-    <select>
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-        </select>`
-  }
+
   
   function render() {
     // Filter item list if store prop is true by item.checked === false
     let items = [ ...store.items ];
-    if (store.expanded) {
-      items = items.filter(item => !item.checked);
+    console.log(items);
+    if (store.expandedView) {
+      items = items.filter(item => !item.expanded);
     }
-  
-    // Filter item list if store prop `searchTerm` is not empty
-    if (store.searchTerm) {
-      items = items.filter(item => item.name.includes(store.searchTerm));
-    }
+    
+    // // Filter item list if store prop `searchTerm` is not empty
+    // if (store.searchTerm) {
+    //   items = items.filter(item => item.name.includes(store.searchTerm));
+    // }
   
     // render the shopping list in the DOM
     console.log('`render` ran');
-    const shoppingListItemsString = generateShoppingItemsString(items);
+    // const shoppingListItemsString = generateShoppingItemsString(items);
   
     // insert that HTML into the DOM
-    $('.js-shopping-list').html(shoppingListItemsString);
+    $('.js-bookmark-list').html(generateBookmarkString(items));
   }
+
   function handleBookmarkSubmit() {
     $('.js-bookmark-form').submit(function (ev) {
       ev.preventDefault();
@@ -110,10 +99,19 @@ const bookmarkList = (function () {
 
     // => '{"title":"Matrix","length":120,"studio":"WB"}'
   }
+  function handleAddBookMark(){
+    $('.js-addbookmark-button').on('click', function(ev){
+      ev.preventDefault();
 
-  function bindEventListeners() {
-    handleBookmarkSubmit();
+      $('.js-bookmark-form').html(generateNewItemSubmitFormExpanded());
+    })
   }
 
-  return { bindEventListeners: bindEventListeners }
+  function bindEventListeners() {
+    // handleBookmarkSubmit();
+    handleAddBookMark();
+  }
+
+  return { render: render,
+    bindEventListeners: bindEventListeners }
 }());
