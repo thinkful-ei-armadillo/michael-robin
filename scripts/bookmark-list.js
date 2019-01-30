@@ -63,7 +63,7 @@ const bookmarkList = (function () {
                     </div>
                   <p>Rating: ${item.rating}</p>
                   <button class="${item.expanded ? "view" : "hidden"} js-edit-button">Edit</button>
-                  <button class="js-bookmark-delete">Delete</button>
+                  <button name="delete-button" id="js-bookmark-delete">Delete</button>
               </li>`
   }
   
@@ -76,7 +76,18 @@ const bookmarkList = (function () {
     console.log('`render` ran');
     $('.js-bookmark-list').html(generateBookmarkString(items));
   }
+  
+  function handleDeleteButton(){
+    $('.js-bookmark-list').on('click', "#js-bookmark-delete", function(ev){
+      const id = $(ev.currentTarget).parent('.js-bookmarked-item').data('item-id');
+      api.deleteItem(id)
+        .then(() => {
+          store.findAndDelete(id);
+          render();
+        });
 
+    })
+  }
   function handleBookmarkSubmit() {
     $('.js-bookmark-form').submit('.js-addBookmark-btn', function (ev) {
       ev.preventDefault();
@@ -91,9 +102,9 @@ const bookmarkList = (function () {
   }
 
   function handleBookMarkOpen(){
-    $('.js-bookmark-list').on('click', 'li', function(ev){
+    $('.js-bookmark-list').on('click', 'h3', function(ev){
       ev.preventDefault();
-      const id = getItemIdFromElement(ev.currentTarget);
+      const id = $(ev.currentTarget).parent('.js-bookmarked-item').data('item-id');
       store.toggleBookmark(id);
       render();
     })
@@ -110,6 +121,7 @@ const bookmarkList = (function () {
     handleAddBookMark();
     handleBookmarkSubmit();
     handleBookMarkOpen();
+    handleDeleteButton();
   }
 
   return { render: render,
