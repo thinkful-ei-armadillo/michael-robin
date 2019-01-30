@@ -30,6 +30,8 @@ const store = (function () {
 
     return {
         items: [],
+        expanded: false,
+        
         addItem,
         findAndDelete,
         setItemIsEditing,

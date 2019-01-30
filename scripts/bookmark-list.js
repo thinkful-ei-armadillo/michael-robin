@@ -23,9 +23,19 @@ const bookmarkList = (function () {
       return JSON.stringify(o);
     }
   });
-
-  const generateNewItemSubmitFormExpanded = function (){
+  
+  const generateForms = function (){
     return `
+    <button class="${store.expanded ? 'hidden': 'view' }" id="js-addbookmark-button">Add Bookmark</button><br>
+        <label>Filter Rating</label>
+        <select>
+         <option>1</option>
+         <option>2</option>
+         <option>3</option>
+         <option>4</option>
+         <option>5</option>
+        </select>
+      <div class="${store.expanded ? 'view': 'hidden' }">
        <label for="bookmark-title">Title</label>
           <input type="text" id="bookmark-title" name="title" placeholder="Title"><br>
           <label for="bookmark-url">URL</label>
@@ -40,7 +50,9 @@ const bookmarkList = (function () {
               <option>4</option>
               <option>5</option>
           </select><br>
-          <button type="submit" name="submit" class="js-addBookmark-btn">Add Bookmark</button>`;
+          <button type="submit" name="submit" class="js-addBookmark-btn">Add Bookmark</button>
+          <button class="js-addbookmark-close>Close</button>
+        </div>`;
   }
 
   function generateBookmarkString(bookmarkedItems) {
@@ -69,11 +81,10 @@ const bookmarkList = (function () {
   
   function render() {
     let items = [ ...store.items ];
-    if (store.expandedBookmarkAddView){
-      //do something
-    }
+   
       
     console.log('`render` ran');
+    $('.js-bookmark-form').html(generateForms());
     $('.js-bookmark-list').html(generateBookmarkString(items));
   }
   
@@ -88,6 +99,7 @@ const bookmarkList = (function () {
 
     })
   }
+
   function handleBookmarkSubmit() {
     $('.js-bookmark-form').submit('.js-addBookmark-btn', function (ev) {
       ev.preventDefault();
@@ -111,9 +123,10 @@ const bookmarkList = (function () {
   }
 
   function handleAddBookMark(){
-    $('.js-addbookmark-button').on('click', function(ev){
+    $('.js-bookmark-form').on('click', '#js-addbookmark-button', function(ev){
       ev.preventDefault();
-      $('.js-bookmark-form').html(generateNewItemSubmitFormExpanded());
+      store.expanded = !store.expanded;
+      render();
     })
   }
 
