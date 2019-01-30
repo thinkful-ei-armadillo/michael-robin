@@ -4,6 +4,7 @@ const store = (function () {
 
     const addItem = function (item) {
         item.expanded = false;
+        item.isEditing = false;
         this.items.push(item);
     };
 
@@ -31,7 +32,8 @@ const store = (function () {
     return {
         items: [],
         expanded: false,
-        
+        filter: null,
+
         addItem,
         findAndDelete,
         setItemIsEditing,
