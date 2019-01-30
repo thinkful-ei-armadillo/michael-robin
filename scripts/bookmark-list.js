@@ -47,38 +47,31 @@ const bookmarkList = (function () {
     const items = shoppingList.map((item) => generateItemElement(item));
     return items.join('');
   }
-  
-  const generateItemElement =function (item){
-    return `
-            <li class="ex-view"> 
-                  <h3>${item.title}</h3>
-                  ${generateExpandedView(item)}
-                  <p>${item.rating}</p>
-              </li>`
+
+  function getItemIdFromElement(item) {
+    return $(item)
+      .data('item-id');
   }
 
-  function generateExpandedView(item){
-    return item.expanded ?
-    `<p>description: ${(!item.desc) ? 'no description avaiable': item.desc}</p>
-    <a href="${item.url}">Visit Site</a>` : '';
+  const generateItemElement = function (item){
+    return `
+            <li class="js-bookmarked-item" data-item-id="${item.id}"> 
+                  <h3>${item.title}</h3>
+                    <div class="${item.expanded ? "view" : "hidden"}">
+                      <p>description: ${(!item.desc) ? 'no description avaiable': item.desc}</p>
+                      <a href="${item.url}">Visit Site</a>
+                    </div>
+                  <p>Rating: ${item.rating}</p>
+              </li>`
   }
   
   function render() {
-    // Filter item list if store prop is true by item.checked === false
     let items = [ ...store.items ];
-    if (store.expandedView) {
-      items = items.filter(item => !item.expanded);
+    if (store.expandedBookmarkAddView){
+      //do something
     }
-    // // Filter item list if store prop `searchTerm` is not empty
-    // if (store.searchTerm) {
-    //   items = items.filter(item => item.name.includes(store.searchTerm));
-    // }
-  
-    // render the shopping list in the DOM
+      
     console.log('`render` ran');
-    // const shoppingListItemsString = generateShoppingItemsString(items);
-  
-    // insert that HTML into the DOM
     $('.js-bookmark-list').html(generateBookmarkString(items));
   }
 
@@ -92,9 +85,16 @@ const bookmarkList = (function () {
         store.addItem(data);
         render();
       });
-          // items.forEach((item) =>    //   return store.addItem(item);
     });
-    // => '{"title":"Matrix","length":120,"studio":"WB"}'
+  }
+
+  function handleBookMarkOpen(){
+    $('.js-bookmark-list').on('click', 'li', function(ev){
+      ev.preventDefault();
+      const id = getItemIdFromElement(ev.currentTarget);
+      store.toggleBookmark(id);
+      render();
+    })
   }
 
   function handleAddBookMark(){
@@ -105,9 +105,9 @@ const bookmarkList = (function () {
   }
 
   function bindEventListeners() {
-    // handleBookmarkSubmit();
     handleAddBookMark();
     handleBookmarkSubmit();
+    handleBookMarkOpen();
   }
 
   return { render: render,

@@ -2,9 +2,8 @@
 
 const store = (function () {
 
-
     const addItem = function (item) {
-        item.expanded = true;
+        item.expanded = false;
         this.items.push(item);
     };
 
@@ -16,21 +15,26 @@ const store = (function () {
         const foundItem = this.items.find(el => el.id === id);
         Object.assign(foundItem, newData);
     };
+    const findById = function(id) {
+        return this.items.find(item => item.id === id);
+      };
+    const toggleBookmark = function (id){
+       const bookmarkItem = store.findById(id);
+       bookmarkItem.expanded = !bookmarkItem.expanded;
+    }
 
     const setItemIsEditing = function (id, isEditing) {
         const item = this.findById(id);
         item.isEditing = isEditing;
     };
-    //delete bookmark
-
-    //update or editing
 
     return {
         items: [],
-        expandedView: false,
         addItem,
         findAndDelete,
-        setItemIsEditing
+        setItemIsEditing,
+        toggleBookmark,
+        findById
     }
 
 
