@@ -70,13 +70,14 @@ const bookmarkList = (function () {
 
   const generateEditTextBoxes = function (item) {
     return `
+    <form class="js-edit-bookmarked-item">
     <label for="bookmark-title">Title: </label>
     <input type="text" id="bookmark-title" name="title" value="${item.title}"><br>
     <label for="bookmark-description">Description: </label>
     <input type="text" id="bookmark-description" name="desc" value="${item.desc}">
     <label for="bookmark-url">URL: </label>
     <input type="text" id="bookmark-url" name="url" value="${item.url}">
-    <label for="bookmark-rating">Rating: <label>
+    <label for="bookmark-rating">Rating: </label>
     <select id="bookmark-rating" name="rating">
      <option>1</option>
      <option>2</option>
@@ -84,6 +85,8 @@ const bookmarkList = (function () {
      <option>4</option>
      <option>5</option>
     </select><br>
+    <button type="submit" class="js-editSubmit"> submit</button>
+    </form>
     `
   }
 
@@ -102,7 +105,7 @@ const bookmarkList = (function () {
     return `
             <li class="js-bookmarked-item" data-item-id="${item.id}"> 
              ${item.isEditing ? generateEditTextBoxes(item) : generatebookmarkView(item)}
-             <button class="${item.expanded ? "view" : "hidden"} js-edit-button">Edit</button>
+             <button type="submit" class="${item.expanded ? "view" : "hidden"} js-edit-button">Edit</button>
              <button name="delete-button" id="js-bookmark-delete">Delete</button>
             </li>`
   }
@@ -121,7 +124,7 @@ const bookmarkList = (function () {
 
   function handleDeleteButton() {
     $('.js-bookmark-list').on('click', "#js-bookmark-delete", function (ev) {
-      const id = $(ev.currentTarget).parent('.js-bookmarked-item').data('item-id');
+      const id = $(ev.currentTarget).parents('.js-bookmarked-item').data('item-id');
       api.deleteItem(id)
         .then(() => {
           store.findAndDelete(id);
@@ -135,7 +138,6 @@ const bookmarkList = (function () {
     $('.js-bookmark-form').submit('.js-addBookmark-btn', function (ev) {
       ev.preventDefault();
       const bookmarkitems = $(ev.target).serializeJson();
-      console.log(bookmarkitems);
       api.createItem(bookmarkitems)
         .then(data => {
           store.addItem(data);
@@ -171,11 +173,26 @@ const bookmarkList = (function () {
   function handleEditingButton() {
     $('.js-bookmark-list').on('click', '.js-edit-button', function (ev) {
       const id = $(ev.currentTarget).parent('.js-bookmarked-item').data('item-id');
-      console.log(id);
       store.setItemIsEditing(id, true);
       render();
     })
   }
+
+  function handleEditButtonSubmit(){
+    $('.js-bookmark-list').submit('.js-editSubmit', function(ev){
+      ev.preventDefault();
+      const id = $(ev.target).closest('li.js-bookmarked-item').data('item-id');
+      const newData = $(ev.target).serializeJson();
+      console.log(newData);
+      api.updateItem(id, newData)
+        .then(() => {
+          store.findAndUpdate(id,newData);
+          store.setItemIsEditing(id, false);
+          render();
+        });
+    })
+  }
+  
   function bindEventListeners() {
     handleBookmarkToggle();
     handleBookmarkSubmit();
@@ -183,6 +200,7 @@ const bookmarkList = (function () {
     handleDeleteButton();
     bookmarkFilterResults();
     handleEditingButton();
+    handleEditButtonSubmit();
   }
 
   return {

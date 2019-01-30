@@ -50,7 +50,7 @@ const api = (function () {
             headers: new Headers({
                 'Content-Type': 'application/json'
             }),
-            body: JSON.stringify(updateData),
+            body: updateData,
         };
         return listApiFetch(`${BASE_URL}/bookmarks/${id}`, options);
     }
@@ -66,7 +66,8 @@ const api = (function () {
         getItems,
         deleteItem,
         // updateData,
-        createItem
+        createItem,
+        updateItem
     }
 
     // getItems,
