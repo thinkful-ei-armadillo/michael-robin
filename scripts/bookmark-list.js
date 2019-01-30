@@ -1,18 +1,4 @@
 /* global, store, index */
-// event  handlers
-
-
-
-//handle add boomark
-
-//handle delete bookmark
-
-// handle edit bookmark
-
-// handle minimun star search
-
-
-
 
 const bookmarkList = (function () {
   $.fn.extend({
@@ -63,11 +49,6 @@ const bookmarkList = (function () {
     return items.join('');
   }
 
-  function getItemIdFromElement(item) {
-    return $(item)
-      .data('item-id');
-  }
-
   const generateEditTextBoxes = function (item) {
     return `
     <form class="js-edit-bookmarked-item">
@@ -101,6 +82,7 @@ const bookmarkList = (function () {
                 
     `
   }
+
   const generateItemElement = function (item) {
     return `
             <li class="js-bookmarked-item" data-item-id="${item.id}"> 
@@ -115,7 +97,6 @@ const bookmarkList = (function () {
 
     if (store.filter > 0) {
       items = items.filter(el => el.rating >= store.filter);
-
     }
     console.log('`render` ran');
     $('.js-bookmark-form').html(generateForms());
@@ -170,6 +151,7 @@ const bookmarkList = (function () {
       render();
     })
   }
+  
   function handleEditingButton() {
     $('.js-bookmark-list').on('click', '.js-edit-button', function (ev) {
       const id = $(ev.currentTarget).parent('.js-bookmarked-item').data('item-id');
@@ -192,7 +174,7 @@ const bookmarkList = (function () {
         });
     })
   }
-  
+
   function bindEventListeners() {
     handleBookmarkToggle();
     handleBookmarkSubmit();
