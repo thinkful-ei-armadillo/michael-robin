@@ -34,14 +34,14 @@ const bookmarkList = (function () {
           <input type="text" id="bookmark-description" name="desc" placeholder="Description"><br>
           <label for="bookmark-rating">Rating</label>
           <select id="bookmark-rating" name="rating">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+              <option value="1">1 Star</option>
+              <option value="2">2 Star</option>
+              <option value="3">3 Star</option>
+              <option value="4">4 Star</option>
+              <option value="5">5 star</option>
           </select><br>
-          <button type="submit" name="submit" class="js-addBookmark-btn">Add Bookmark</button>
-          <button class="js-addbookmark-togglebutton">Cancel</button>
+          <input type="submit" name="submit" class ="js-addBookmark-btn" value="Add Bookmark">
+          <input type="button" name="Cancel editing" class="js-addbookmark-togglebutton" value="Cancel">
         </div>`;
   };
 
