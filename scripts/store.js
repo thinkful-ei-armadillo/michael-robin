@@ -1,48 +1,44 @@
-/* global Item */
-
+/* global  */
+'use strict';
 const store = (function () {
+  const addItem = function (item) {
+    item.expanded = false;
+    item.isEditing = false;
+    this.items.push(item);
+  };
 
-    const addItem = function (item) {
-        item.expanded = false;
-        item.isEditing = false;
-        this.items.push(item);
-    };
+  const findAndDelete = function (id) {
+    this.items = this.items.filter(item => item.id !== id);
+  };
 
-    const findAndDelete = function (id) {
-        this.items = this.items.filter(item => item.id !== id);
-    };
+  const findAndUpdate = function (id, newData) {
+    Object.assign(findById(id), JSON.parse(newData));
+  };
 
-    const findAndUpdate = function (id, newData) {
-        const foundItem = this.items.find(el => el.id === id);
-        const convertFromJsonStringify = JSON.parse(newData);
-        Object.assign(foundItem, convertFromJsonStringify); 
-    };
+  const findById = function (id) {
+    return store.items.find(item => item.id === id);
+  };
 
-    const findById = function(id) {
-        return this.items.find(item => item.id === id);
-      };
-    const toggleBookmark = function (id){
-       const bookmarkItem = store.findById(id);
-       bookmarkItem.expanded = !bookmarkItem.expanded;
-    }
+  const toggleBookmark = function (id) {
+    const bookmarkItem = store.findById(id);
+    bookmarkItem.expanded = !bookmarkItem.expanded;
+  };
 
-    const setItemIsEditing = function (id, isEditing) {
-        const item = this.findById(id);
-        item.isEditing = isEditing;
-    };
+  const setItemIsEditing = function (id, isEditing) {
+    const item = this.findById(id);
+    item.isEditing = isEditing;
+  };
 
-    return {
-        items: [],
-        expanded: false,
-        filter: null,
+  return {
+    items: [],
+    expanded: false,
+    filter: null,
 
-        addItem,
-        findAndDelete,
-        setItemIsEditing,
-        toggleBookmark,
-        findById,
-        findAndUpdate
-    }
-
-
+    addItem,
+    findAndDelete,
+    findAndUpdate,
+    findById,
+    toggleBookmark,
+    setItemIsEditing 
+  };
 }());

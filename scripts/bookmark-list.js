@@ -164,7 +164,6 @@ const bookmarkList = (function () {
       ev.preventDefault();
       const id = $(ev.target).closest('li.js-bookmarked-item').data('item-id');
       const newData = $(ev.target).serializeJson();
-      console.log(newData);
       api.updateItem(id, newData)
         .then(() => {
           store.findAndUpdate(id,newData);
