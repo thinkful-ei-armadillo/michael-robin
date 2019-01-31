@@ -13,7 +13,7 @@ const bookmarkList = (function () {
 
   const generateForms = function () {
     return `
-      <div class="${store.expanded ? 'hidden' : 'view'}"> 
+      <div class="${store.addBookmarkExpanded ? 'hidden' : 'view'}"> 
       <button class="js-addbookmark-togglebutton">Add Bookmark</button><br>
         <label for="bookmark-filter">Filter Rating</label>
         <select id="bookmark-filter">
@@ -25,7 +25,7 @@ const bookmarkList = (function () {
          <option>5</option>
         </select>
       </div>
-      <div class="${store.expanded ? 'view' : 'hidden'}">
+      <div class="${store.addBookmarkExpanded ? 'view' : 'hidden'}">
        <label for="bookmark-title">Title</label>
           <input type="text" id="bookmark-title" name="title" placeholder="Title"><br>
           <label for="bookmark-url">URL</label>
@@ -44,11 +44,6 @@ const bookmarkList = (function () {
           <button class="js-addbookmark-togglebutton">Cancel</button>
         </div>`;
   };
-
-  function generateBookmarkString(bookmarkedItems) {
-    const items = bookmarkedItems.map((item) => generateItemElement(item));
-    return items.join('');
-  }
 
   const generateEditTextBoxes = function (item) {
     return `
@@ -72,6 +67,12 @@ const bookmarkList = (function () {
     `;
   };
 
+  const generateBookmarkString = function (bookmarkedItems) {
+    return bookmarkedItems
+      .map((item) => generateItemElement(item))
+      .join('');
+  };
+
   const getIdFromElement = function (el){
     return $(el)
       .closest('li.js-bookmarked-item')
@@ -80,12 +81,12 @@ const bookmarkList = (function () {
 
   const generatebookmarkView = function (item) {
     return `
-                  <h3>${item.title}</h3>
-                    <div class="${item.expanded ? 'view' : 'hidden'}">
-                      <p>description: ${(!item.desc) ? 'no description avaiable' : item.desc}</p> 
-                      <a href="${item.url}">Visit Site</a><br>
-                    </div>
-                    <p>Rating: ${item.rating}</p>
+          <h3>${item.title}</h3>
+          <div class="${item.expanded ? 'view' : 'hidden'}">
+            <p>description: ${(!item.desc) ? 'no description avaiable' : item.desc}</p> 
+            <a href="${item.url}">Visit Site</a><br>
+          </div>
+          <p>Rating: ${item.rating}</p>
     `;
   };
 
@@ -143,7 +144,7 @@ const bookmarkList = (function () {
   function handleAddBookmarkToggle() {
     $('.js-bookmark-form').on('click', '.js-addbookmark-togglebutton', function (ev) {
       ev.preventDefault();
-      store.addBookmarkExpanded = !store.addBookmarkExpanded;
+      store.toggleAddBookmark();
       render();
     });
   }
@@ -158,8 +159,8 @@ const bookmarkList = (function () {
   
   function handleEditingButton() {
     $('.js-bookmark-list').on('click', '.js-edit-button', function (ev) {
-      const id = $(ev.currentTarget).parent('.js-bookmarked-item').data('item-id');
-      store.setItemIsEditing(id, true);
+      const id = getIdFromElement(ev.target);
+      store.editItemToggle(id);
       render();
     });
   }
@@ -172,7 +173,7 @@ const bookmarkList = (function () {
       api.updateItem(id, newData)
         .then(() => {
           store.findAndUpdate(id,newData);
-          store.setItemIsEditing(id, false);
+          store.editItemToggle(id);
           render();
         });
     });

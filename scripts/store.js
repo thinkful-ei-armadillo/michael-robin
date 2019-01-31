@@ -2,9 +2,9 @@
 'use strict';
 const store = (function () {
   const addItem = function (item) {
-    item.expanded = false;
-    item.isEditing = false;
-    this.items.push(item);
+    const newItem = Object
+      .assign(item, { expanded: false, isEditing: false });
+    this.items.push(newItem);
   };
 
   const findAndDelete = function (id) {
@@ -24,9 +24,13 @@ const store = (function () {
     bookmarkItem.expanded = !bookmarkItem.expanded;
   };
 
-  const setItemIsEditing = function (id, isEditing) {
+  const editItemToggle = function (id) {
     const item = this.findById(id);
-    item.isEditing = isEditing;
+    item.isEditing = !item.isEditing;
+  };
+
+  const toggleAddBookmark = function (){
+    this.addBookmarkExpanded = !this.addBookmarkExpanded;
   };
 
   return {
@@ -39,6 +43,7 @@ const store = (function () {
     findAndUpdate,
     findById,
     toggleBookmarkExpansion,
-    setItemIsEditing 
+    editItemToggle,
+    toggleAddBookmark
   };
 }());
