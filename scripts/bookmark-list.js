@@ -66,19 +66,6 @@ const bookmarkList = (function () {
     </form>
     `;
   };
-
-  const generateBookmarkString = function (bookmarkedItems) {
-    return bookmarkedItems
-      .map((item) => generateItemElement(item))
-      .join('');
-  };
-
-  const getIdFromElement = function (el){
-    return $(el)
-      .closest('li.js-bookmarked-item')
-      .data('item-id');
-  };
-
   const generatebookmarkView = function (item) {
     return `
           <h3>${item.title}</h3>
@@ -100,9 +87,22 @@ const bookmarkList = (function () {
     `;
   };
 
+  const generateBookmarkString = function (bookmarkedItems) {
+    return bookmarkedItems
+      .map((item) => generateItemElement(item))
+      .join('');
+  };
+
+  const getIdFromElement = function (el){
+    return $(el)
+      .closest('li.js-bookmarked-item')
+      .data('item-id');
+  };
+
+ 
   function render() {
     let items = [...store.items];
-
+    
     if (store.filter > 0)
       items = items.filter(item => item.rating >= store.filter);
 
