@@ -19,7 +19,7 @@ const store = (function () {
     return store.items.find(item => item.id === id);
   };
 
-  const toggleBookmark = function (id) {
+  const toggleBookmarkExpansion = function (id) {
     const bookmarkItem = store.findById(id);
     bookmarkItem.expanded = !bookmarkItem.expanded;
   };
@@ -31,14 +31,14 @@ const store = (function () {
 
   return {
     items: [],
-    expanded: false,
+    addBookmarkExpanded: false,
     filter: null,
 
     addItem,
     findAndDelete,
     findAndUpdate,
     findById,
-    toggleBookmark,
+    toggleBookmarkExpansion,
     setItemIsEditing 
   };
 }());
