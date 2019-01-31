@@ -1,5 +1,6 @@
-/* global, store, index */
-
+/* global store, api, $ */
+'use strict';
+// eslint-disable-next-line no-unused-vars
 const bookmarkList = (function () {
   $.fn.extend({
     serializeJson: function () {
@@ -42,7 +43,7 @@ const bookmarkList = (function () {
           <button type="submit" name="submit" class="js-addBookmark-btn">Add Bookmark</button>
           <button class="js-addbookmark-togglebutton">Cancel</button>
         </div>`;
-  }
+  };
 
   function generateBookmarkString(bookmarkedItems) {
     const items = bookmarkedItems.map((item) => generateItemElement(item));
@@ -68,29 +69,29 @@ const bookmarkList = (function () {
     </select><br>
     <button type="submit" class="js-editSubmit"> submit</button>
     </form>
-    `
-  }
+    `;
+  };
 
   const generatebookmarkView = function (item) {
     return `
                   <h3>${item.title}</h3>
-                    <div class="${item.expanded ? "view" : "hidden"}">
+                    <div class="${item.expanded ? 'view' : 'hidden'}">
                       <p>description: ${(!item.desc) ? 'no description avaiable' : item.desc}</p> 
                       <a href="${item.url}">Visit Site</a><br>
                     </div>
                     <p>Rating: ${item.rating}</p>
-                
-    `
-  }
+    `;
+  };
 
   const generateItemElement = function (item) {
     return `
             <li class="js-bookmarked-item ${ item.expanded ? 'col-12': 'col-3'}" data-item-id="${item.id}"> 
              ${item.isEditing ? generateEditTextBoxes(item) : generatebookmarkView(item)}
-             <button type="submit" class="${item.expanded ? "view" : "hidden"} js-edit-button">Edit</button>
+             <button type="submit" class="${item.expanded ? 'view' : 'hidden'} js-edit-button">Edit</button>
              <button name="delete-button" id="js-bookmark-delete">Delete</button>
-            </li>`
-  }
+            </li>
+    `;
+  };
 
   function render() {
     let items = [...store.items];
@@ -98,21 +99,19 @@ const bookmarkList = (function () {
     if (store.filter > 0) {
       items = items.filter(el => el.rating >= store.filter);
     }
-    console.log('`render` ran');
     $('.js-bookmark-form').html(generateForms());
     $('.js-bookmark-list').html(generateBookmarkString(items));
   }
 
   function handleDeleteButton() {
-    $('.js-bookmark-list').on('click', "#js-bookmark-delete", function (ev) {
+    $('.js-bookmark-list').on('click', '#js-bookmark-delete', function (ev) {
       const id = $(ev.currentTarget).parents('.js-bookmarked-item').data('item-id');
       api.deleteItem(id)
         .then(() => {
           store.findAndDelete(id);
           render();
         });
-
-    })
+    });
   }
 
   function handleBookmarkSubmit() {
@@ -133,7 +132,7 @@ const bookmarkList = (function () {
       const id = $(ev.currentTarget).parent('.js-bookmarked-item').data('item-id');
       store.toggleBookmark(id);
       render();
-    })
+    });
   }
 
   function handleBookmarkToggle() {
@@ -141,7 +140,7 @@ const bookmarkList = (function () {
       ev.preventDefault();
       store.expanded = !store.expanded;
       render();
-    })
+    });
   }
 
   function bookmarkFilterResults() {
@@ -149,7 +148,7 @@ const bookmarkList = (function () {
       const filterValue = $(ev.currentTarget).val();
       store.filter = filterValue;
       render();
-    })
+    });
   }
   
   function handleEditingButton() {
@@ -157,7 +156,7 @@ const bookmarkList = (function () {
       const id = $(ev.currentTarget).parent('.js-bookmarked-item').data('item-id');
       store.setItemIsEditing(id, true);
       render();
-    })
+    });
   }
 
   function handleEditButtonSubmit(){
@@ -172,7 +171,7 @@ const bookmarkList = (function () {
           store.setItemIsEditing(id, false);
           render();
         });
-    })
+    });
   }
 
   function bindEventListeners() {
@@ -188,5 +187,5 @@ const bookmarkList = (function () {
   return {
     render: render,
     bindEventListeners: bindEventListeners
-  }
+  };
 }());
