@@ -9,5 +9,3 @@ $(document).ready(function () {
     bookmarkList.render();}
     )
 });
-  
-  
