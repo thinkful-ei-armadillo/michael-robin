@@ -43,10 +43,6 @@ const bookmarkList = (function () {
       </select><br>`;
   }
 
-  function generateRatingOption(userPick){
-    return store.filter === userPick ? 'selected': ''; 
-  }
-
   function generateEditTextBoxes(item) {
     return `
       <form class="js-edit-bookmarked-item">
@@ -84,6 +80,10 @@ const bookmarkList = (function () {
     `;
   }
 
+  function generateRatingOption(userPick){
+    return store.filter === userPick ? 'selected': ''; 
+  }
+  
   function generateBookmarkString(bookmarkedItems) {
     return bookmarkedItems
       .map((item) => generateItemElement(item))
