@@ -25,23 +25,28 @@ const bookmarkList = (function () {
     return `
       <div class="${store.addBookmarkExpanded ? 'hidden' : 'view'}"> 
         <button class="js-bookmark-togglebutton">Add Bookmark</button><br>
-        ${generateBookmarkRatings('bookmark-filter')}
+        ${generateBookmarkRatings('bookmark-filter', 'Minimun Rating')}
       </div>
       <div class="${store.addBookmarkExpanded ? 'view' : 'hidden'}">
         ${generateEditTextBoxes()}
       </div>`;
   }
 
-  function generateBookmarkRatings(strId) {
+  function generateBookmarkRatings(strId, ratingVariable) {
     return `
-      <label for="${strId}">Rating: </label>
+      <label for="${strId}">${ratingVariable}: </label>
       <select id="${strId}" name="rating">
-        <option value="1">1 Star</option>
-        <option value="2">2 Star</option>
-        <option value="3">3 Star</option>
-        <option value="4">4 Star</option>
-        <option value="5">5 star</option>
+        <option value="null"${generateRatingOption(null)}>None</option>
+        <option value="1" ${generateRatingOption('1')}>1 Star</option>
+        <option value="2" ${generateRatingOption('2')}>2 Star</option>
+        <option value="3" ${generateRatingOption('3')}>3 Star</option>
+        <option value="4" ${generateRatingOption('4')}>4 Star</option>
+        <option value="5" ${generateRatingOption('5')}>5 star</option>
       </select><br>`;
+  }
+
+  function generateRatingOption(userPick){
+    return store.filter === userPick ? 'selected': ''; 
   }
 
   function generateEditTextBoxes(item) {
@@ -53,7 +58,7 @@ const bookmarkList = (function () {
         <input type="text" id="bookmark-description" name="desc" ${!item ? '' : `value="${item.desc}"`}><br>
         <label for="bookmark-url">URL: </label>
         <input type="text" id="bookmark-url" name="url" ${!item ? '' : `value="${item.url}"`}><br>
-        ${generateBookmarkRatings('bookmark-rating')}
+        ${generateBookmarkRatings('bookmark-rating', 'Choose Your Rating')}
         <button type="submit" name="submit"> submit </button>
         <input type="button" name="Cancel-editing" class="js-bookmark-togglebutton js-edit-button" value="Cancel">
       </form>
@@ -127,6 +132,7 @@ const bookmarkList = (function () {
   function handleAddBookmarkToggle() {
     $('.js-bookmark-form').on('click', '.js-bookmark-togglebutton', function (ev) {
       ev.preventDefault();
+      store.filter = null;
       store.toggleAddBookmark();
       render();
     });
@@ -136,6 +142,7 @@ const bookmarkList = (function () {
     $('.js-bookmark-form').on('change', '#bookmark-filter', function (ev) {
       const filterValue = $(ev.currentTarget).val();
       store.filter = filterValue;
+      console.log(filterValue);
       render();
     });
   }
@@ -143,6 +150,7 @@ const bookmarkList = (function () {
   function handleEditingButton() {
     $('.js-bookmark-list').on('click', '.js-edit-button', function (ev) {
       const id = getIdFromElement(ev.target);
+      store.filter = null;
       store.editItemToggle(id);
       render();
     });
