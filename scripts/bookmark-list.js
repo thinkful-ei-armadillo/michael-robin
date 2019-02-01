@@ -11,7 +11,7 @@ const bookmarkList = (function () {
     }
   });
 
-  const generateForms = function () {
+  const generateAddBookmarkForms = function () {
     return `
       <div class="${store.addBookmarkExpanded ? 'hidden' : 'view'}"> 
         <button class="js-bookmark-togglebutton">Add Bookmark</button><br>
@@ -44,7 +44,7 @@ const bookmarkList = (function () {
         <label for="bookmark-url">URL: </label>
         <input type="text" id="bookmark-url" name="url" ${!item ? '' : `value="${item.url}"`}><br>
         ${generateBookmarkRatings('bookmark-rating')}
-        <button type="submit" name="submit"> submit</button>
+        <button type="submit" name="submit"> submit </button>
         <input type="button" name="Cancel-editing" class="js-bookmark-togglebutton js-edit-button" value="Cancel">
       </form>
     `;
@@ -90,7 +90,7 @@ const bookmarkList = (function () {
     if (store.filter > 0)
       items = items.filter(item => item.rating >= store.filter);
 
-    $('.js-bookmark-form').html(generateForms());
+    $('.js-bookmark-form').html(generateAddBookmarkForms());
     $('.js-bookmark-list').html(generateBookmarkString(items));
   }
 
