@@ -66,10 +66,15 @@ const bookmarkList = (function () {
           <p>description: ${(!item.desc) ? 'no description avaiable' : item.desc}</p> 
           <a href="${item.url}">Visit Site</a><br>
         </div>
-        <p>Rating: ${item.rating}</p>
+        <p>Rating: ${generateStarRating(item.rating)}</p>
     `;
   }
-
+  
+  function generateStarRating(rating){
+    let stars = '<span class="star">&#x2605;</span>';
+    return stars.repeat(rating);
+  }
+  
   function generateItemElement(item) {
     return `
         <li class="js-bookmarked-item ${ item.expanded || item.isEditing ? 'col-12': 'col-3'}" data-item-id="${item.id}"> 
@@ -83,7 +88,7 @@ const bookmarkList = (function () {
   function generateRatingOption(userPick){
     return store.filter === userPick ? 'selected': ''; 
   }
-  
+
   function generateBookmarkString(bookmarkedItems) {
     return bookmarkedItems
       .map((item) => generateItemElement(item))
