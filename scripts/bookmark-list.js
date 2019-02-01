@@ -13,10 +13,8 @@ const bookmarkList = (function () {
 
   function render() {
     let items = [...store.items];
-    
     if (store.filter > 0)
       items = items.filter(item => item.rating >= store.filter);
-
     $('.js-bookmark-form').html(generateAddBookmarkForms());
     $('.js-bookmark-list').html(generateBookmarkString(items));
   }
@@ -142,7 +140,6 @@ const bookmarkList = (function () {
     $('.js-bookmark-form').on('change', '#bookmark-filter', function (ev) {
       const filterValue = $(ev.currentTarget).val();
       store.filter = filterValue;
-      console.log(filterValue);
       render();
     });
   }
