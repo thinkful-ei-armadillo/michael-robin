@@ -78,7 +78,7 @@ const bookmarkList = (function () {
 
   function generateItemElement(item) {
     return `
-        <li class="js-bookmarked-item ${ item.expanded ? 'col-12': 'col-3'}" data-item-id="${item.id}"> 
+        <li class="js-bookmarked-item ${ item.expanded || item.isEditing ? 'col-12': 'col-3'}" data-item-id="${item.id}"> 
           ${item.isEditing ? generateEditTextBoxes(item) : generatebookmarkView(item)}
           <input type="button" name="editButton" class="${!item.isEditing ? 'view' : 'hidden'} js-edit-button" value="Edit">
           <input type="button" name="delete-button" id="js-bookmark-delete" value="Delete">
