@@ -15,9 +15,9 @@ const store = (function () {
     const findAndUpdate = function (id, newData) {
         const foundItem = this.items.find(el => el.id === id);
         const convertFromJsonStringify = JSON.parse(newData);
-        Object.assign(foundItem, convertFromJsonStringify);
-        
+        Object.assign(foundItem, convertFromJsonStringify); 
     };
+
     const findById = function(id) {
         return this.items.find(item => item.id === id);
       };
