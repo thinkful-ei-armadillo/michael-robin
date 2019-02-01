@@ -71,10 +71,10 @@ const bookmarkList = (function () {
   }
   
   function generateStarRating(rating){
-    let stars = '<span class="star">&#x2605;</span>';
+    const stars = '<span class="star">&#x2605;</span>';
     return stars.repeat(rating);
   }
-  
+
   function generateItemElement(item) {
     return `
         <li class="js-bookmarked-item ${ item.expanded || item.isEditing ? 'col-12': 'col-3'}" data-item-id="${item.id}"> 
