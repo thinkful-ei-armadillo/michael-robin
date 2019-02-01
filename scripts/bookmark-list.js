@@ -11,7 +11,17 @@ const bookmarkList = (function () {
     }
   });
 
-  const generateAddBookmarkForms = function () {
+  function render() {
+    let items = [...store.items];
+    
+    if (store.filter > 0)
+      items = items.filter(item => item.rating >= store.filter);
+
+    $('.js-bookmark-form').html(generateAddBookmarkForms());
+    $('.js-bookmark-list').html(generateBookmarkString(items));
+  }
+
+  function generateAddBookmarkForms() {
     return `
       <div class="${store.addBookmarkExpanded ? 'hidden' : 'view'}"> 
         <button class="js-bookmark-togglebutton">Add Bookmark</button><br>
@@ -20,9 +30,9 @@ const bookmarkList = (function () {
       <div class="${store.addBookmarkExpanded ? 'view' : 'hidden'}">
         ${generateEditTextBoxes()}
       </div>`;
-  };
+  }
 
-  const generateBookmarkRatings= function(strId){
+  function generateBookmarkRatings(strId) {
     return `
       <label for="${strId}">Rating: </label>
       <select id="${strId}" name="rating">
@@ -32,9 +42,9 @@ const bookmarkList = (function () {
         <option value="4">4 Star</option>
         <option value="5">5 star</option>
       </select><br>`;
-  };
+  }
 
-  const generateEditTextBoxes = function (item) {
+  function generateEditTextBoxes(item) {
     return `
       <form class="js-edit-bookmarked-item">
         <label for="bookmark-title">Title: </label>
@@ -48,9 +58,9 @@ const bookmarkList = (function () {
         <input type="button" name="Cancel-editing" class="js-bookmark-togglebutton js-edit-button" value="Cancel">
       </form>
     `;
-  };
+  }
 
-  const generatebookmarkView = function (item) {
+  function generatebookmarkView(item) {
     return `
         <h3>${item.title}</h3>
         <div class="${item.expanded ? 'view' : 'hidden'}">
@@ -59,9 +69,9 @@ const bookmarkList = (function () {
         </div>
         <p>Rating: ${item.rating}</p>
     `;
-  };
+  }
 
-  const generateItemElement = function (item) {
+  function generateItemElement(item) {
     return `
         <li class="js-bookmarked-item ${ item.expanded ? 'col-12': 'col-3'}" data-item-id="${item.id}"> 
           ${item.isEditing ? generateEditTextBoxes(item) : generatebookmarkView(item)}
@@ -69,29 +79,18 @@ const bookmarkList = (function () {
           <input type="button" name="delete-button" id="js-bookmark-delete" value="Delete">
         </li>
     `;
-  };
+  }
 
-  const generateBookmarkString = function (bookmarkedItems) {
+  function generateBookmarkString(bookmarkedItems) {
     return bookmarkedItems
       .map((item) => generateItemElement(item))
       .join('');
-  };
+  }
 
-  const getIdFromElement = function (el){
-    return $(el)
+  function getIdFromElement(element) {
+    return $(element)
       .closest('li.js-bookmarked-item')
       .data('item-id');
-  };
-
- 
-  function render() {
-    let items = [...store.items];
-    
-    if (store.filter > 0)
-      items = items.filter(item => item.rating >= store.filter);
-
-    $('.js-bookmark-form').html(generateAddBookmarkForms());
-    $('.js-bookmark-list').html(generateBookmarkString(items));
   }
 
   function handleDeleteButton() {
@@ -133,7 +132,7 @@ const bookmarkList = (function () {
     });
   }
 
-  function bookmarkFilterResults() {
+  function handleFilterResults() {
     $('.js-bookmark-form').on('change', '#bookmark-filter', function (ev) {
       const filterValue = $(ev.currentTarget).val();
       store.filter = filterValue;
@@ -168,7 +167,7 @@ const bookmarkList = (function () {
     handleBookmarkSubmit();
     handleBookMarkOpen();
     handleDeleteButton();
-    bookmarkFilterResults();
+    handleFilterResults();
     handleEditingButton();
     handleEditButtonSubmit();
   }
