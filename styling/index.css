@@ -1,9 +1,7 @@
-.checked{
-    color: orange;
-}
 .hidden {
     display: none
 }
+
 body{
     font-family: 'Montserrat', sans-serif;
     background-color: #dddddd;

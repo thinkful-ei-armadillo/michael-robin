@@ -36,7 +36,6 @@ const bookmarkList = (function () {
     return `
       <label for="${strId}">Rating: </label>
       <select id="${strId}" name="rating">
-        <option value="0">None</option>
         <option value="1">1 Star</option>
         <option value="2">2 Star</option>
         <option value="3">3 Star</option>
