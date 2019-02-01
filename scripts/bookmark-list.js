@@ -34,7 +34,7 @@ const bookmarkList = (function () {
     return `
       <label for="${strId}">${ratingVariable}: </label>
       <select id="${strId}" name="rating">
-        <option value="null"${generateRatingOption(null)}>None</option>
+        <option value="0"${generateRatingOption(null)}>None</option>
         <option value="1" ${generateRatingOption('1')}>1 Star</option>
         <option value="2" ${generateRatingOption('2')}>2 Star</option>
         <option value="3" ${generateRatingOption('3')}>3 Star</option>
@@ -55,7 +55,7 @@ const bookmarkList = (function () {
         <label for="bookmark-description">Description: </label>
         <input type="text" id="bookmark-description" name="desc" ${!item ? '' : `value="${item.desc}"`}><br>
         <label for="bookmark-url">URL: </label>
-        <input type="text" id="bookmark-url" name="url" ${!item ? '' : `value="${item.url}"`}><br>
+        <input type="text" id="bookmark-url" name="url" value ="${!item ? 'https://' : item.url }"><br>
         ${generateBookmarkRatings('bookmark-rating', 'Choose Your Rating')}
         <button type="submit" name="submit"> submit </button>
         <input type="button" name="Cancel-editing" class="js-bookmark-togglebutton js-edit-button" value="Cancel">
