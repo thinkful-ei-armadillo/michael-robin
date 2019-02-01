@@ -4,9 +4,10 @@
 
 body{
     font-family: 'Montserrat', sans-serif;
+    background-color: #dddddd;
 }
 
-.js-addbookmark-togglebutton, .js-addBookmark-btn, .js-edit-button, .js-editSubmit, #bookmark-filter{
+.js-addbookmark-togglebutton, .js-addBookmark-btn, .js-edit-button, .js-editSubmit, #js-bookmark-delete, #bookmark-filter{
     font-family: 'Montserrat', sans-serif;
     margin-bottom: 5px;
 }
@@ -55,7 +56,8 @@ h3{
 li{
     margin: auto;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: 10px;
+    margin-bottom: 10px;
     width: 50%;
     border: 3px solid black;
     padding-bottom: 10px;

@@ -1,48 +1,49 @@
-/* global Item */
-
+/* global  */
+'use strict';
 const store = (function () {
+  const addItem = function (item) {
+    const newItem = Object
+      .assign(item, { expanded: false, isEditing: false });
+    this.items.push(newItem);
+  };
 
-    const addItem = function (item) {
-        item.expanded = false;
-        item.isEditing = false;
-        this.items.push(item);
-    };
+  const findAndDelete = function (id) {
+    this.items = this.items.filter(item => item.id !== id);
+  };
 
-    const findAndDelete = function (id) {
-        this.items = this.items.filter(item => item.id !== id);
-    };
+  const findAndUpdate = function (id, newData) {
+    Object.assign(findById(id), JSON.parse(newData));
+  };
 
-    const findAndUpdate = function (id, newData) {
-        const foundItem = this.items.find(el => el.id === id);
-        const convertFromJsonStringify = JSON.parse(newData);
-        Object.assign(foundItem, convertFromJsonStringify); 
-    };
+  const findById = function (id) {
+    return store.items.find(item => item.id === id);
+  };
 
-    const findById = function(id) {
-        return this.items.find(item => item.id === id);
-      };
-    const toggleBookmark = function (id){
-       const bookmarkItem = store.findById(id);
-       bookmarkItem.expanded = !bookmarkItem.expanded;
-    }
+  const toggleBookmarkExpansion = function (id) {
+    const bookmarkItem = store.findById(id);
+    bookmarkItem.expanded = !bookmarkItem.expanded;
+  };
 
-    const setItemIsEditing = function (id, isEditing) {
-        const item = this.findById(id);
-        item.isEditing = isEditing;
-    };
+  const editItemToggle = function (id) {
+    const item = this.findById(id);
+    item.isEditing = !item.isEditing;
+  };
 
-    return {
-        items: [],
-        expanded: false,
-        filter: null,
+  const toggleAddBookmark = function (){
+    this.addBookmarkExpanded = !this.addBookmarkExpanded;
+  };
 
-        addItem,
-        findAndDelete,
-        setItemIsEditing,
-        toggleBookmark,
-        findById,
-        findAndUpdate
-    }
+  return {
+    items: [],
+    addBookmarkExpanded: false,
+    filter: null,
 
-
+    addItem,
+    findAndDelete,
+    findAndUpdate,
+    findById,
+    toggleBookmarkExpansion,
+    editItemToggle,
+    toggleAddBookmark
+  };
 }());
