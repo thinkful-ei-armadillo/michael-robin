@@ -1,3 +1,67 @@
 .hidden {
     display: none
 }
+
+body{
+    font-family: 'Montserrat', sans-serif;
+}
+
+.js-addbookmark-togglebutton, .js-addBookmark-btn, .js-edit-button, .js-editSubmit, #bookmark-filter{
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 5px;
+}
+
+#bookmark-title, #bookmark-url, #bookmark-description, #bookmark-rating{
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 5px;
+    padding-left: 2px;
+}
+
+h1{
+    font-size: 40px;
+    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    text-align: center;
+    border: 3px solid black;
+    margin-bottom: 10px;
+}
+
+.view{
+    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+ul{
+    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    text-align: left;
+}
+
+ul li{
+    list-style-type: none;
+    display: inline;
+}
+
+h3{
+  margin-top: 10px;  
+}
+
+li{
+    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    border: 3px solid black;
+    padding-bottom: 10px;
+}
+
+p{
+    margin-left: 10px;
+    text-align: left;
+}
