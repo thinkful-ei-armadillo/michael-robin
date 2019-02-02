@@ -22,8 +22,10 @@ const bookmarkList = (function () {
   function generateAddBookmarkForms() {
     return `
       <div class="${store.addBookmarkExpanded ? 'hidden' : 'view'}"> 
-        <button class="js-bookmark-togglebutton">Add Bookmark</button><br>
-        ${generateBookmarkRatings('bookmark-filter', 'Minimun Rating')}
+        <div class="outsideUL">  
+          <button class="js-bookmark-togglebutton">Add Bookmark</button><br>
+          ${generateBookmarkRatings('bookmark-filter', 'Filter by Rating')}
+        </div>
       </div>
       <div class="${store.addBookmarkExpanded ? 'view' : 'hidden'}">
         ${generateEditTextBoxes()}
@@ -34,28 +36,29 @@ const bookmarkList = (function () {
     return `
       <label for="${strId}">${ratingVariable}: </label>
       <select id="${strId}" name="rating">
-        <option value="0"${generateRatingOption(null)}>None</option>
         <option value="1" ${generateRatingOption('1')}>1 Star</option>
-        <option value="2" ${generateRatingOption('2')}>2 Star</option>
-        <option value="3" ${generateRatingOption('3')}>3 Star</option>
-        <option value="4" ${generateRatingOption('4')}>4 Star</option>
-        <option value="5" ${generateRatingOption('5')}>5 star</option>
+        <option value="2" ${generateRatingOption('2')}>2 Stars</option>
+        <option value="3" ${generateRatingOption('3')}>3 Stars</option>
+        <option value="4" ${generateRatingOption('4')}>4 Stars</option>
+        <option value="5" ${generateRatingOption('5')}>5 stars</option>
       </select><br>`;
   }
 
   function generateEditTextBoxes(item) {
     return `
-      <form class="js-edit-bookmarked-item">
-        <label for="bookmark-title">Title: </label>
-        <input type="text" id="bookmark-title" name="title" ${!item ? '' : `value="${item.title}"`}><br>
-        <label for="bookmark-description">Description: </label>
-        <input type="text" id="bookmark-description" name="desc" ${!item ? '' : `value="${item.desc}"`}><br>
-        <label for="bookmark-url">URL: </label>
-        <input type="text" id="bookmark-url" name="url" value ="${!item ? 'https://' : item.url }"><br>
-        ${generateBookmarkRatings('bookmark-rating', 'Choose Your Rating')}
-        <button type="submit" name="submit"> submit </button>
-        <input type="button" name="Cancel-editing" class="js-bookmark-togglebutton js-edit-button" value="Cancel">
-      </form>
+      <div class="outsideUL">  
+        <form class="js-edit-bookmarked-item">
+          <label for="bookmark-title">Title: </label>
+          <input type="text" id="bookmark-title" name="title" ${!item ? '' : `value="${item.title}"`}>
+          <label for="bookmark-description">Description: </label>
+          <input type="text" id="bookmark-description" name="desc" ${!item ? '' : `value="${item.desc}"`}>
+          <label for="bookmark-url">URL: </label>
+          <input type="text" id="bookmark-url" name="url" value ="${!item ? 'https://' : item.url }">
+          ${generateBookmarkRatings('bookmark-rating', 'Rating')}
+          <button class="newBkmrkSubmit" type="submit" name="submit">Submit</button>
+          <input type="button" name="Cancel-editing" class="js-bookmark-togglebutton js-edit-button" value="Cancel">
+        </form>
+      </div>
     `;
   }
 
@@ -63,7 +66,7 @@ const bookmarkList = (function () {
     return `
         <h3>${item.title}</h3>
         <div class="${item.expanded ? 'view' : 'hidden'}">
-          <p>description: ${(!item.desc) ? 'no description avaiable' : item.desc}</p> 
+          <p>Description: ${(!item.desc) ? '<i>none</i>' : item.desc}</p> 
           <a href="${item.url}">Visit Site</a><br>
         </div>
         <p>Rating: ${generateStarRating(item.rating)}</p>
