@@ -49,11 +49,11 @@ const bookmarkList = (function () {
       <div class="outsideUL">  
         <form class="js-edit-bookmarked-item">
           <label for="bookmark-title">Title: </label>
-          <input type="text" id="bookmark-title" name="title" ${!item ? '' : `value="${item.title}"`}>
+          <input type="text" id="bookmark-title" name="title" ${!item ? '' : `value="${item.title}"`}><br>
           <label for="bookmark-description">Description: </label>
-          <input type="text" id="bookmark-description" name="desc" ${!item ? '' : `value="${item.desc}"`}>
+          <input type="text" id="bookmark-description" name="desc" ${!item ? '' : `value="${item.desc}"`}><br>
           <label for="bookmark-url">URL: </label>
-          <input type="text" id="bookmark-url" name="url" value ="${!item ? 'https://' : item.url }">
+          <input type="text" id="bookmark-url" name="url" value ="${!item ? 'https://' : item.url }"><br>
           ${generateBookmarkRatings('bookmark-rating', 'Rating')}
           <button class="newBkmrkSubmit" type="submit" name="submit">Submit</button>
           <input type="button" name="delete-button" id="js-bookmark-delete" class="${!item ? 'hidden' : 'view'}" value="Delete">
