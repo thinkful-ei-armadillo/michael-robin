@@ -56,6 +56,7 @@ const bookmarkList = (function () {
           <input type="text" id="bookmark-url" name="url" value ="${!item ? 'https://' : item.url }">
           ${generateBookmarkRatings('bookmark-rating', 'Rating')}
           <button class="newBkmrkSubmit" type="submit" name="submit">Submit</button>
+          <input type="button" name="delete-button" id="js-bookmark-delete" class="${!item ? 'hidden' : 'view'}" value="Delete">
           <input type="button" name="Cancel-editing" class="js-bookmark-togglebutton js-edit-button" value="Cancel">
         </form>
       </div>
@@ -82,8 +83,10 @@ const bookmarkList = (function () {
     return `
         <li class="js-bookmarked-item ${ item.expanded || item.isEditing ? 'col-12': 'col-3'}" data-item-id="${item.id}"> 
           ${item.isEditing ? generateEditTextBoxes(item) : generatebookmarkView(item)}
-          <input type="button" name="editButton" class="${!item.isEditing ? 'view' : 'hidden'} js-edit-button" value="Edit">
-          <input type="button" name="delete-button" id="js-bookmark-delete" value="Delete">
+          <div class="${!item.isEditing ? 'view' : 'hidden'} expanded-btns">
+            <input type="button" name="editButton" class="js-edit-button" value="Edit">
+            <input type="button" name="delete-button" id="js-bookmark-delete" value="Delete">
+          </div>
         </li>
     `;
   }
