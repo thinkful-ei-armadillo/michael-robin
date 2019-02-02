@@ -34,17 +34,13 @@ const bookmarkList = (function () {
     return `
       <label for="${strId}">${ratingVariable}: </label>
       <select id="${strId}" name="rating">
-        <option value="null"${generateRatingOption(null)}>None</option>
+        <option value="0"${generateRatingOption(null)}>None</option>
         <option value="1" ${generateRatingOption('1')}>1 Star</option>
         <option value="2" ${generateRatingOption('2')}>2 Star</option>
         <option value="3" ${generateRatingOption('3')}>3 Star</option>
         <option value="4" ${generateRatingOption('4')}>4 Star</option>
         <option value="5" ${generateRatingOption('5')}>5 star</option>
       </select><br>`;
-  }
-
-  function generateRatingOption(userPick){
-    return store.filter === userPick ? 'selected': ''; 
   }
 
   function generateEditTextBoxes(item) {
@@ -55,7 +51,7 @@ const bookmarkList = (function () {
         <label for="bookmark-description">Description: </label>
         <input type="text" id="bookmark-description" name="desc" ${!item ? '' : `value="${item.desc}"`}><br>
         <label for="bookmark-url">URL: </label>
-        <input type="text" id="bookmark-url" name="url" ${!item ? '' : `value="${item.url}"`}><br>
+        <input type="text" id="bookmark-url" name="url" value ="${!item ? 'https://' : item.url }"><br>
         ${generateBookmarkRatings('bookmark-rating', 'Choose Your Rating')}
         <button type="submit" name="submit"> submit </button>
         <input type="button" name="Cancel-editing" class="js-bookmark-togglebutton js-edit-button" value="Cancel">
@@ -70,8 +66,13 @@ const bookmarkList = (function () {
           <p>description: ${(!item.desc) ? 'no description avaiable' : item.desc}</p> 
           <a href="${item.url}">Visit Site</a><br>
         </div>
-        <p>Rating: ${item.rating}</p>
+        <p>Rating: ${generateStarRating(item.rating)}</p>
     `;
+  }
+  
+  function generateStarRating(rating){
+    const stars = '<span class="star">&#x2605;</span>';
+    return stars.repeat(rating);
   }
 
   function generateItemElement(item) {
@@ -82,6 +83,10 @@ const bookmarkList = (function () {
           <input type="button" name="delete-button" id="js-bookmark-delete" value="Delete">
         </li>
     `;
+  }
+
+  function generateRatingOption(userPick){
+    return store.filter === userPick ? 'selected': ''; 
   }
 
   function generateBookmarkString(bookmarkedItems) {
